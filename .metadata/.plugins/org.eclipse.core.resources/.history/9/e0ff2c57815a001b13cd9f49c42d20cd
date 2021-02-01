@@ -1,0 +1,43 @@
+package collections2;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class ExamSon {
+	public static int solution(int[] ranks) {
+		Arrays.sort(ranks);
+		
+		HashMap<Integer, Integer> allSoldiers = new LinkedHashMap<Integer, Integer>();
+		
+		for(int i=0 ; i< ranks.length ; i++) {
+			if(allSoldiers.containsKey(ranks[i])) {
+				int val= allSoldiers.get(ranks[i]);
+				allSoldiers.put(ranks[i], ++val);
+			}else {
+				allSoldiers.put(ranks[i] , 1 );
+			}
+		}
+		int sum =0;
+		
+		for(int i :allSoldiers.keySet() ) {
+			while(true) {
+				if( allSoldiers.containsKey(i+1)  )
+					sum = sum + allSoldiers.get(i);
+				else {
+					break;
+				}
+			}
+			
+		}
+		
+		
+		return sum;
+	}
+	public static void main(String[] args) {
+		
+		int[] ranks = { 3,4,3,0,2,2,3,0,0};
+		solution(ranks);
+	}
+}

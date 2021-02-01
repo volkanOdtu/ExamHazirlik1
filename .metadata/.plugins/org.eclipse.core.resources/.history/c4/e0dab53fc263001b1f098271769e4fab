@@ -1,0 +1,77 @@
+package hatirlama2;
+
+import java.security.AllPermission;
+import java.util.ArrayList;
+
+//Java program to Print all possible paths from 
+//top left to bottom right of a mXn matrix
+public class Udemy 
+{
+
+
+	/* mat: Pointer to the starting of mXn matrix
+i, j: Current position of the robot (For the first call use 0,0)
+m, n: Dimentions of given the matrix
+pi: Next index to be filed in path array
+*path[0..pi-1]: The path traversed by robot till now (Array to hold the
+				path need to have space for at least m+n elements) */
+	static ArrayList<int[]> allPaths = new ArrayList<int[]>();
+	
+	private static void printArr(int path[]) {
+		
+		for (int l = 0; l < path.length; l++) 
+		{
+			System.out.print(path[l] + " ");
+		}
+					
+		System.out.println();
+	}
+	private static void printMatrix(int matrix[][], int yTop, int xTop, int y, int x, int path[], int idx)
+	{
+		path[idx] = matrix[y][x];
+		
+		// Reached the bottom of the matrix so we are left with only option to move right
+		if (y == yTop - 1) 
+		{
+			for (int k = x + 1; k < xTop; k++)
+			{
+				path[idx + k - x] = matrix[y][k];
+			}
+			printArr(path);
+			return;
+		}
+		
+		// Reached the right corner of the matrix we are left with only the downward movement.
+		if (x == xTop - 1) 
+		{
+			for (int k = y + 1; k < yTop; k++) 
+			{
+				path[idx + k - y] = matrix[k][x];
+			}
+			printArr(path);
+			return;
+		}
+		
+		printMatrix(matrix, yTop, xTop, y + 1, x, path, idx + 1);// Print all the paths that are possible after moving down
+		
+		printMatrix(matrix, yTop, xTop, y, x + 1, path, idx + 1); // Print all the paths that are possible after moving right
+	}
+	
+	// Driver code
+	public static void main(String[] args) 
+	{
+		int yTop = 2;
+		int xTop = 3;
+		int mat[][] = { { 1, 2, 3 }, 
+						{ 4, 5, 6 }};
+		
+		int maxLengthOfPath = yTop + xTop - 1;
+		int[] paths = new int[maxLengthOfPath];
+		
+		
+		
+		printMatrix(mat, yTop, xTop, 0, 0, paths , 0);
+		
+	}
+}
+

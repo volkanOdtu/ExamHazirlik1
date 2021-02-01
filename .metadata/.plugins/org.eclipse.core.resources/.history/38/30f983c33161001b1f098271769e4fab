@@ -1,0 +1,52 @@
+package hatirlama;
+
+public class Chapter2 {
+
+	static class Node{
+		Node left ,right;
+		int data ;
+		public Node(int data) {
+			this.data = data;
+		}
+	}
+	
+	public  Node findAandCreatePlace(Node root ,int data) {
+		if(root == null) {
+			Node node = new Node(data);
+			return node;
+		}
+		else {
+			if( data > root.data  )
+				root.right = findAandCreatePlace(root, data);
+			else
+				root.left = findAandCreatePlace(root, data);
+			
+			return root;
+		}
+	}
+	
+	public int treeHeight(Node root) {
+		if(root == null) return 0;
+		
+		
+		return 1 + Math.max( treeHeight(root.left)  ,treeHeight(root.right));
+			
+		 
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Chapter2 chp = new Chapter2();
+		Node root = null;
+		
+		chp.findAandCreatePlace(root, 5);
+		chp.findAandCreatePlace(root, 3);
+		chp.findAandCreatePlace(root, 8);
+		chp.findAandCreatePlace(root, 1);
+		chp.findAandCreatePlace(root, 2);
+		chp.findAandCreatePlace(root, 7);
+		chp.findAandCreatePlace(root, 9);
+		chp.findAandCreatePlace(root, 10);
+		
+	}
+
+}

@@ -1,0 +1,30 @@
+package collections;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+
+public class deneme {
+	
+	public static void main(String[] abc) {
+		
+		//final means the content of the variable cant be changed
+		final Map<String ,Integer> wordCounts = new HashMap<>();
+		
+		wordCounts.put("USA", 100 );
+		wordCounts.put("jobs", 200 );
+		wordCounts.put("software", 50 );
+		wordCounts.put("technology", 70 );
+		wordCounts.put("oppurtunity", 20 );
+		
+		
+		Stream.of(wordCounts.keySet()).forEach(item -> System.out.println(item) );
+		Stream.of( wordCounts.values()).forEach(item -> System.out.println(item) );
+		
+		//final Map<String ,Integer> soretdByCount = Stream.of( wordCounts.values()).forEach(item -> System.out.println(item) );
+				
+			
+		
+	}
+
+}

@@ -1,0 +1,51 @@
+package hatirlama3;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+class Student {
+    private String name;
+    private int score;
+    
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+    
+    public int getScore() {
+        return score;
+    }
+    
+    public String getName() {
+        return name;
+    }
+}
+
+public class Deneme {
+
+	public static List<Student> studentsPassingExam(){
+		
+		List<Student> students = new ArrayList<Student>();
+
+        students.add(new Student("Mike", 80));
+        students.add(new Student("James", 57));
+        students.add(new Student("Alan", 21));
+
+        
+        List<Student> pasingStudents= students.stream().filter(s -> s.getScore()> 40).
+        								sorted(Collections.reverseOrder( Comparator.comparing(Student::getScore))).collect(Collectors.toList());
+        
+        pasingStudents.forEach(s -> System.out.println(s.getName() + ":" + s.getScore()));
+        return null;
+
+	}
+	public static void main(String[] args) {
+		 studentsPassingExam();
+		 
+		 
+	}
+
+}

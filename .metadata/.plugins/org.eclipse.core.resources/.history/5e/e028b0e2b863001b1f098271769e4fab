@@ -1,0 +1,25 @@
+package hatirlama2;
+
+public class Udemy {
+
+	public static void printMatrix() {
+		
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		int m = 2;
+		int n= 3;
+		int matrix[][] = { {1,2,3},
+						   {4,5,6}};
+		
+		int maxLengthPath = m + n -1;
+		int[] arr = new int[maxLengthPath];
+		
+		printMatrix( matrix, m ,n ,0 ,0 ,arr ,0 );
+	}
+	
+	
+
+}

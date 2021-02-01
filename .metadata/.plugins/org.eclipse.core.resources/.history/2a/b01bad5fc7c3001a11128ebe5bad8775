@@ -1,0 +1,47 @@
+package collections;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class deneme {
+	
+	
+	public static void main(String[] abc) {
+		
+		
+		Function<Integer ,Integer > myIdentityFn = Function.identity();
+		System.out.println(myIdentityFn.apply(3));
+		
+		/*
+		//final means the content of the variable cant be changed
+		final Map<String ,Integer> wordCounts = new HashMap<>();
+		
+		wordCounts.put("USA", 100 );
+		wordCounts.put("jobs", 200 );
+		wordCounts.put("software", 50 );
+		wordCounts.put("technology", 70 );
+		wordCounts.put("oppurtunity", 20 );
+		
+		
+		//Stream.of(wordCounts.keySet()).forEach(item -> System.out.println(item) ); //this is also ok
+		//wordCounts.keySet().stream().forEach(item -> System.out.println(item) );
+		//wordCounts.values().stream().forEach(item -> System.out.println(item) );		
+		wordCounts.entrySet().stream()
+							 .sorted(Map.Entry.comparingByKey())
+							 .collect(Collectors.toMap(String, Integer));
+							 
+		//.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+					 
+							 
+		.forEach(item ->System.out.println(item.getKey() + ":" + item.getValue() ) );
+		*/
+		
+				
+			
+		
+	}
+
+}

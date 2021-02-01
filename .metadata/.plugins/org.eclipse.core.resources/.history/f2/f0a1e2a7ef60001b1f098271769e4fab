@@ -1,0 +1,35 @@
+package hatirlama;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class Hazirlik {
+
+	public static void isAllUnique(String a) {
+		
+		String[] allChars = a.split("");
+		//Arrays.sort();
+		
+		Map<String, Long> allCharsMap = Arrays.asList(allChars).stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())) ;
+		
+		Long groupedVals = allCharsMap.entrySet().stream().filter( i -> i.getValue() > 1).count();
+		
+		if(groupedVals > 0)
+			System.out.println(groupedVals);
+		else
+			System.out.println("No item repeated");
+		//(Collectors.toMap(Function.identity() , Collectors.counting()));
+		//Arrays.sort(allChars);
+		//for(int i =0 ; i< allChars.length;)
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+			isAllUnique("ali");
+		
+		
+	}
+
+}

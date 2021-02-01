@@ -1,0 +1,173 @@
+package collections2;
+
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.swing.RowFilter.ComparisonType;
+
+public class ExamSon {
+	public static int solution(int[] ranks) {
+		Arrays.sort(ranks);
+		
+		HashMap<Integer, Integer> allSoldiers = new LinkedHashMap<Integer, Integer>();
+		
+		for(int i=0 ; i< ranks.length ; i++) {
+			if(allSoldiers.containsKey(ranks[i])) {
+				int val= allSoldiers.get(ranks[i]);
+				allSoldiers.put(ranks[i], ++val);
+			}else {
+				allSoldiers.put(ranks[i] , 1 );
+			}
+		}
+		int sum =0;
+		
+		for(int i :allSoldiers.keySet() ) {
+			
+				if( allSoldiers.containsKey(i+1)  )
+					sum = sum + allSoldiers.get(i);
+			
+		}
+		
+		
+		return sum;
+	}
+	
+	
+	public static int solution2(String s) {
+		String n1 = "00:01:07,400-234-090"; // bu Call lar arasinda en uzun call 400-234-090 a yapilmis ,bu numaraya yapilan callari remove edicez
+		String n2 = "00:05:01,701-080-080"; //geriye 701-080-080 kaldi sadece bunun call unu hesaplicaz ve return edicez
+		String n3 =  "00:05:00,400-234-090";
+		
+		 String arr[] = s.split("\n");
+				 
+		
+		String numbers[] = { n1 ,n2 ,n3}; //s.split("\n");
+
+		//Tum numaralara yapilan call minute lerini yazicaz ,minute olarak en cok olan toplam numarayi bulucaz
+		//ve en cok olan cikacak ,eger max duration olan 1 den cok var ise
+		//en kucuk numeric sayisal degeri olani cikaricaz 
+		Map<String, Integer> allNumbersWithDuration = new HashMap<String,Integer>();
+		
+		int maxBill =0 ;
+		String maxDuration = "";
+		
+		for(String fullStr: numbers) {
+			String[] durationAndNumber = fullStr.split(",");
+			String number = durationAndNumber[1];
+			String duration = durationAndNumber[0];
+			
+			
+			if(allNumbersWithDuration.containsKey(number)) {
+				int durationExisting= allNumbersWithDuration.get(number);
+				int durationNew = Arrays.stream(duration.split(":")).
+						mapToInt(n -> Integer.parseInt(n)).
+						reduce(0, (n,m) -> n *60 + m);
+				
+				durationNew= durationExisting + durationNew;
+				allNumbersWithDuration.replace(number, durationNew );
+			}else {
+				
+				int durationNew = Arrays.stream(duration.split(":")).
+									mapToInt(n -> Integer.parseInt(n)).
+									reduce(0, (n,m) -> n *60 + m);				
+				allNumbersWithDuration.put(number , durationNew);
+			}
+			
+		}
+				
+		
+		
+		//final String maxDur = maxDuration;
+		//en yuksek duration li item i numarayi bulalim 1 den coksa en kucuk numaraliyi hashMap den cikaralim
+		
+		 Optional<Entry<String, Integer>> maxHashMap = allNumbersWithDuration.entrySet().stream()
+				 											.max(Map.Entry.comparingByValue());
+		 
+		 String removedItemKey = allNumbersWithDuration.entrySet().stream().filter(a-> a.getValue() == maxHashMap.get().getValue())
+		 											.sorted().findFirst().get().getKey();
+				 											
+		  	
+		 int sumBill =0 ;
+		 int bill =0;
+		 for(String fullStr: numbers) {
+				String[] durationAndNumber = fullStr.split(",");
+				String number = durationAndNumber[1];
+				String duration = durationAndNumber[0];
+				if(number.equals(removedItemKey)) 
+					continue; // bunu hesaba katmiyacagiz
+				
+				bill = computeBill(durationAndNumber[0]);
+				sumBill+= bill;
+			}
+	
+		 return sumBill;				 
+		
+	}
+	
+	static int computeBill(String duration1) {
+		//String duration = "00:01:07";
+		String[] dateNumbers = duration1.split(":");
+		
+		Integer hh = 0;
+		Integer mm =0 ;
+		Integer ss = 0;
+		
+		if(!(dateNumbers[0].equals("00"))) 
+		{ 
+			if(dateNumbers[0].startsWith("0"))
+				dateNumbers[10] = dateNumbers[0].substring(1);
+			
+			hh = Integer.valueOf(dateNumbers[0]);
+		}
+		if(!(dateNumbers[1].equals("00"))) 
+		{
+			if(dateNumbers[1].startsWith("0"))
+				dateNumbers[1] = dateNumbers[1].substring(1);
+			mm = Integer.valueOf(dateNumbers[1]);
+		}
+		if(!(dateNumbers[2].equals("00"))) 
+		{
+			if(dateNumbers[2].startsWith("0"))
+				dateNumbers[2] = dateNumbers[2].substring(1);
+			ss = Integer.valueOf(dateNumbers[2]);
+		}
+		int sum =0;
+		
+		if(mm > 5 || (mm == 5 && ss > 0 )) {
+			sum = (mm + 1) *150 ;
+		}else {
+			sum = (mm * 60 + ss) *3;
+		}
+		
+		if(hh >0 ) 
+			sum = hh *60 *150 + sum;
+		
+		
+		
+		return sum;
+	}
+	
+	public static void main(String[] args) {
+		
+		//int[] ranks = { 3,4,3,0,2,2,3,0,0};
+		//int[] ranks = { 4,2,0};
+		
+		String n1 = "00:01:07,400-234-090"  +  
+					"00:05:01,701-080-080"  + 
+		            "00:05:00,400-234-090";
+		
+		solution2(n1);
+	}
+}

@@ -1,0 +1,35 @@
+package collections2;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+class Node{
+	int id;
+	ArrayList<Node> friends ;
+	Node previousNode = null;
+	
+	public Node(int id ,Node prevNode) {		
+		this.id = id;
+		if(prevNode!= null)
+			this.previousNode = prevNode;
+		this.friends = new ArrayList<Node>();
+	}
+	
+	//mevcut node dan(kendi de dahil) baslayarak tum prevNode larini ekliyoruz
+	public LinkedList<Node> collapse(boolean startWithRoot){
+		LinkedList<Node> path = new LinkedList<Node>();
+		Node tempNode = this;
+		while(tempNode!= null) {
+			if(startWithRoot)
+				path.addLast(tempNode);
+			else
+				path.addFirst(tempNode);
+			tempNode = tempNode.previousNode;
+		}
+		return path;
+	}
+}
+
+public class SocialNetwork {
+
+}

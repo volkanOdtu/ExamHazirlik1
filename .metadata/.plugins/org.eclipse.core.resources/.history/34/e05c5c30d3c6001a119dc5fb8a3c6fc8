@@ -1,0 +1,67 @@
+package collections;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class arrayListSorting {
+
+	public static void main(String[] args) {
+	
+		List<Employee> employeesList = new ArrayList<Employee>();
+		
+		employeesList.add(new Employee(1, "Peter Gibbons"));
+		employeesList.add(new Employee(2, "Samir Nagheenanajar"));
+		employeesList.add(new Employee(3, "Michael Bolton"));
+		employeesList.add(new Employee(4, "Milton Waddams"));
+	
+		Employee maxId = employeesList.stream().max(new Comparator<Employee>() {
+	       @Override
+	        public int compare(Employee e1, Employee e2) {
+	            return e1.getId() - e2.getId();
+	        }
+	    }).orElse(Employee.DEFAULT_EMPLOYEE);
+		
+		System.out.println(maxId);
+		
+		Employee maxName = employeesList.stream().max(new Comparator<Employee>() {
+		       @Override
+		        public int compare(Employee e1, Employee e2) {
+		            return e1.getName().compareTo(e2.getName());
+		        }
+		    }).orElse(Employee.DEFAULT_EMPLOYEE);
+		
+		System.out.println(maxName);
+		
+	}
+
+}
+
+class Employee{
+	private int id ;
+	private String name;
+	
+	public static final Employee DEFAULT_EMPLOYEE = new Employee(0, "Default Name");
+	
+	public Employee(int id ,String name) {
+		this.id = id;
+		this.name = name;				
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+}

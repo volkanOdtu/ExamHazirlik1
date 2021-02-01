@@ -1,0 +1,116 @@
+package collections2;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class ExamSon {
+	public static int solution(int[] ranks) {
+		Arrays.sort(ranks);
+		
+		HashMap<Integer, Integer> allSoldiers = new LinkedHashMap<Integer, Integer>();
+		
+		for(int i=0 ; i< ranks.length ; i++) {
+			if(allSoldiers.containsKey(ranks[i])) {
+				int val= allSoldiers.get(ranks[i]);
+				allSoldiers.put(ranks[i], ++val);
+			}else {
+				allSoldiers.put(ranks[i] , 1 );
+			}
+		}
+		int sum =0;
+		
+		for(int i :allSoldiers.keySet() ) {
+			
+				if( allSoldiers.containsKey(i+1)  )
+					sum = sum + allSoldiers.get(i);
+			
+		}
+		
+		
+		return sum;
+	}
+	
+	
+	public static int solution2(String s) {
+		String n1 = "00:01:07,400-234-090";
+		String n2 = "00:05:01,701-080-080";
+		String n3 =  "00:05:00,400-234-090";
+		
+		String numbers[] = { n1 ,n2 ,n3}; //s.split("\n");
+
+		HashMap<String, Integer> allNumbersWithDuration = new HashMap<String, Integer>();
+		
+		int maxBill =0 ;
+		String maxDuration = "";
+		
+		for(String fullStr: numbers) {
+			String[] numberDuration = fullStr.split(",");
+			int result = computeBill(numberDuration[0]);
+			
+			if( maxBill >  result) {
+				maxBill = result;
+				maxDuration = numberDuration[0];
+			}
+		}
+				
+		final String maxDur = maxDuration;
+		HashMap<String, Integer> resultMap = allNumbersWithDuration.entrySet().stream()
+			.filter(i -> i.getKey().equals(maxDur)).
+			collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue ,(o1,o2) ->{ if( o1 > o2) return o1 ; else return o2 ;} ,LinkedHashMap::new));
+		
+		
+			return resultMap.get(0).intValue();
+		
+	}
+	
+	static int computeBill(String duration1) {
+		//String duration = "00:01:07";
+		String[] dateNumbers = duration1.split(":");
+		
+		Integer hh = 0;
+		Integer mm =0 ;
+		Integer ss = 0;
+		
+		if(!dateNumbers[0].equals("00")) 
+		{ 
+			if(dateNumbers[0].startsWith("0"))
+				dateNumbers[10] = dateNumbers[0].substring(1);
+			
+			hh = Integer.valueOf(dateNumbers[0]);
+		}
+		if(!dateNumbers[1].equals("00")) 
+		{
+			if(dateNumbers[1].startsWith("0"))
+				dateNumbers[1] = dateNumbers[1].substring(1);
+			mm = Integer.valueOf(dateNumbers[1]);
+		}
+		if(!dateNumbers[2].equals("00")) 
+		{
+			if(dateNumbers[2].startsWith("0"))
+				dateNumbers[2] = dateNumbers[2].substring(1);
+			ss = Integer.valueOf(dateNumbers[2]);
+		}
+		int sum =0;
+		
+		if(hh >0 ) {
+			sum = hh *60 *150 + mm *150 ;
+		}else if(mm > 5 || (mm == 5 && ss > 0 )) {
+			sum = mm *150 ;
+		}else {
+			sum = mm * 60 + ss *3;
+		}
+		
+		return sum;
+	}
+	
+	public static void main(String[] args) {
+		
+		//int[] ranks = { 3,4,3,0,2,2,3,0,0};
+		//int[] ranks = { 4,2,0};
+		
+		solution2("");
+	}
+}
